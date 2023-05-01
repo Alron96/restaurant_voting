@@ -8,8 +8,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        use_sql_comments: true
         default_batch_fetch_size: 20
         jdbc.fetch_size: 20
+        show_sql: true
+
   datasource:
     url: jdbc:h2:mem:voting
     username: sa
@@ -23,5 +26,5 @@ spring:
 logging:
   level:
     root: warn
-    com.graduation.restaurantvoting: debug
+    com.restaurant_voting: debug
     org.springframework.security.web.FilterChainProxy: debug

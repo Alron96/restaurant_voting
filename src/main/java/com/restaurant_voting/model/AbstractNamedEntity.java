@@ -25,7 +25,7 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
     @Override
     public String toString() {
-        String base = super.toString();
-        return base + " name=" + name;
+        String id = super.toString();
+        return id + ", name=" + name;
     }
 }

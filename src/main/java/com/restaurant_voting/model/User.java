@@ -7,7 +7,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -15,8 +14,6 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@ToString(callSuper = true, exclude = {"password"})
 public class User extends AbstractNamedEntity {
 
     @Column(name = "email", nullable = false, unique = true)
@@ -39,19 +36,15 @@ public class User extends AbstractNamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
 
-    @CollectionTable(name = "restaurant_user_vote", joinColumns = @JoinColumn(name = "user_id"),
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "vote_date"}, name = "uk_user_vote")})
-    @Column(name = "vote_date")
-    @JoinColumn
-    @ElementCollection(fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Set<LocalDate> voteDate;
-
     public User(Integer id, String name, String email, String password, Collection<Role> roles) {
         super(id, name);
         this.email = email;
         this.password = password;
         setRoles(roles);
+    }
+
+    public User(Integer id, String name, String email, String password, Role... roles) {
+        this(id, name, email, password, List.of(roles));
     }
 
     public User(User u) {
@@ -60,5 +53,15 @@ public class User extends AbstractNamedEntity {
 
     public void setRoles(Collection<Role> roles) {
         this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
+    }
+
+    @Override
+    public String toString() {
+        String id_name = super.toString();
+        return "User(" +
+                id_name +
+                ", email=" + this.getEmail() +
+                ", roles=" + this.getRoles() +
+                ")";
     }
 }

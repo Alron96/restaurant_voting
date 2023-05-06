@@ -2,6 +2,7 @@ package com.restaurant_voting.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.data.domain.Persistable;
@@ -24,8 +25,8 @@ public abstract class AbstractBaseEntity implements Persistable<Integer> {
         return id;
     }
 
-    @JsonIgnore
     @Override
+    @JsonIgnore
     public boolean isNew() {
         return id == null;
     }

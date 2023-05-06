@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.restaurant_voting.util.RestaurantUtil.TODAY;
+import static com.restaurant_voting.util.TimeUtil.TODAY;
 
 
 @Repository

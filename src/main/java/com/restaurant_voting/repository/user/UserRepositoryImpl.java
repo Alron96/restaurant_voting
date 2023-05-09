@@ -5,11 +5,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
-
     private final CrudUserRepository crudUserRepository;
 
     @Override
@@ -30,5 +30,10 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean delete(int id) {
         return crudUserRepository.delete(id) != 0;
+    }
+
+    @Override
+    public Optional<User> findByEmailIgnoreCase(String email) {
+        return crudUserRepository.findByEmailIgnoreCase(email);
     }
 }

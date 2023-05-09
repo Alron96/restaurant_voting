@@ -1,5 +1,6 @@
 package com.restaurant_voting.to;
 
+import com.restaurant_voting.HasIdAndEmail;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -10,7 +11,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserTo implements Serializable {
+public class UserTo implements HasIdAndEmail, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 

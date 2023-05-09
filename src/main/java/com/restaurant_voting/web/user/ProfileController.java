@@ -2,26 +2,27 @@ package com.restaurant_voting.web.user;
 
 import com.restaurant_voting.model.User;
 import com.restaurant_voting.to.UserTo;
+import com.restaurant_voting.web.AuthorizedUser;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/profile", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProfileController extends AbstractUserController {
+    static final String REST_URL = "/api/profile";
 
-    @Override
     @GetMapping
-    public User get(int id) {
-        return super.get(id);
+    public User get(@AuthenticationPrincipal AuthorizedUser authUser) {
+        return super.get(authUser.getId());
     }
 
-    @Override
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(int id) {
-        super.delete(id);
+    public void delete(@AuthenticationPrincipal AuthorizedUser authUser) {
+        super.delete(authUser.getId());
     }
 
     @PostMapping
@@ -32,7 +33,7 @@ public class ProfileController extends AbstractUserController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody UserTo userTo, @PathVariable int id) {
-        super.update(userTo, id);
+    public void update(@Valid @RequestBody UserTo userTo, @AuthenticationPrincipal AuthorizedUser authUser) {
+        super.update(userTo, authUser.getId());
     }
 }

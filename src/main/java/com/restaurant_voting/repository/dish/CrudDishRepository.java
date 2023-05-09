@@ -9,7 +9,6 @@ import java.util.List;
 
 @Transactional(readOnly = true)
 public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
-
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM Dish d WHERE d.id=:id AND d.restaurant.id=:restaurantId")

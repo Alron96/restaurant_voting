@@ -5,7 +5,6 @@ import com.restaurant_voting.repository.restaurant.RestaurantRepository;
 import com.restaurant_voting.repository.vote.VoteRepository;
 import com.restaurant_voting.to.RestaurantTo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,11 +15,8 @@ import static com.restaurant_voting.util.RestaurantUtil.asTosWithoutVotes;
 @Service
 @RequiredArgsConstructor
 public class RestaurantService {
-    @Autowired
-    RestaurantRepository restaurantRepository;
-
-    @Autowired
-    VoteRepository voteRepository;
+    private final RestaurantRepository restaurantRepository;
+    private final VoteRepository voteRepository;
 
     public Restaurant create(Restaurant restaurant) {
         return restaurantRepository.save(restaurant);

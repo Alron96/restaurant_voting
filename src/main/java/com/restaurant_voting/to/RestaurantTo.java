@@ -1,5 +1,6 @@
 package com.restaurant_voting.to;
 
+import com.restaurant_voting.HasId;
 import com.restaurant_voting.model.Dish;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -13,7 +14,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RestaurantTo implements Serializable {
+public class RestaurantTo implements HasId, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 

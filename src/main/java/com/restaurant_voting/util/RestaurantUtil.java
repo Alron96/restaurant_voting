@@ -3,11 +3,13 @@ package com.restaurant_voting.util;
 import com.restaurant_voting.model.Restaurant;
 import com.restaurant_voting.model.Vote;
 import com.restaurant_voting.to.RestaurantTo;
+import lombok.experimental.UtilityClass;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@UtilityClass
 public class RestaurantUtil {
 
     public static List<RestaurantTo> asTos(List<RestaurantTo> restaurants, List<Vote> votes) {

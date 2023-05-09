@@ -5,41 +5,51 @@ import com.restaurant_voting.repository.user.UserRepository;
 import com.restaurant_voting.to.UserTo;
 import com.restaurant_voting.util.UserUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.List;
+
+import static com.restaurant_voting.util.UserUtil.prepareToSave;
+import static com.restaurant_voting.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    @Autowired
-    UserRepository repository;
-
-    public User get(int id) {
-        return repository.get(id);
-    }
+    private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
     public List<User> getAll() {
         return repository.getAll();
     }
 
+    public User get(int id) {
+        return checkNotFoundWithId(repository.get(id), id);
+    }
+
     public void delete(int id) {
-        repository.delete(id);
+        checkNotFoundWithId(repository.delete(id), id);
     }
 
     public User create(User user) {
-        return repository.save(user);
+        Assert.notNull(user, "user must not be null");
+        return prepareAndSave(user);
     }
 
     public void update(User user) {
-        repository.save(user);
+        Assert.notNull(user, "user must not be null");
+        prepareAndSave(user);
     }
 
     @Transactional
     public void update(UserTo userTo) {
         User user = get(userTo.getId());
-        repository.save(UserUtil.updateFromTo(user, userTo));
+        prepareAndSave(UserUtil.updateFromTo(user, userTo));
+    }
+
+    private User prepareAndSave(User user) {
+        return repository.save(prepareToSave(user, passwordEncoder));
     }
 }

@@ -4,7 +4,7 @@ spring:
     open-in-view: false
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
@@ -17,17 +17,21 @@ spring:
     url: jdbc:h2:mem:voting
     username: sa
     password:
+
   h2.console.enabled: true
+
   data.rest:
     base-path: /api
+    default-page-size: 20
     return-body-on-create: true
+
+server.servlet.encoding:
+  charset: UTF-8
+  enabled: true
+  force: true
 
 logging:
   level:
     root: warn
     com.restaurant_voting: debug
     org.springframework.security.web.FilterChainProxy: debug
-
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html

@@ -11,7 +11,7 @@ import java.util.List;
 @Slf4j
 public abstract class AbstractRestaurantController {
     @Autowired
-    RestaurantService service;
+    private RestaurantService service;
 
     public Restaurant get(int id) {
         log.info("get restaurant with id={}", id);

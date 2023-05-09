@@ -12,9 +12,7 @@ import static com.restaurant_voting.util.TimeUtil.TODAY;
 @Repository
 @AllArgsConstructor
 public class RestaurantRepositoryImpl implements RestaurantRepository {
-
     private final CrudRestaurantRepository crudRestaurantRepository;
-
 
     @Override
     public Restaurant save(Restaurant restaurant) {

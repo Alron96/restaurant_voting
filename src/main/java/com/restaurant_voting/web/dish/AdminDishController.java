@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping(value = "/api/admin/restaurants/{restaurantId}/dishes", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminDishController {
     @Autowired
-    DishRepository dishRepository;
+    private DishRepository dishRepository;
 
     @GetMapping
     public List<Dish> getAll(@PathVariable int restaurantId) {

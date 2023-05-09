@@ -1,12 +1,9 @@
 package com.restaurant_voting.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.restaurant_voting.HasId;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
-import org.springframework.data.domain.Persistable;
-import org.springframework.util.Assert;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
@@ -14,21 +11,20 @@ import org.springframework.util.Assert;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class AbstractBaseEntity implements Persistable<Integer> {
+public abstract class AbstractBaseEntity implements HasId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 
-    public int id() {
-        Assert.notNull(id, "Entity must has id");
-        return id;
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override
-    @JsonIgnore
-    public boolean isNew() {
-        return id == null;
+    public Integer getId() {
+        return id;
     }
 
     @Override

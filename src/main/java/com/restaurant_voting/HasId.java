@@ -1,5 +1,6 @@
 package com.restaurant_voting;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.util.Assert;
 
 public interface HasId {
@@ -8,6 +9,7 @@ public interface HasId {
 
     void setId(Integer id);
 
+    @JsonIgnore
     default boolean isNew() {
         return getId() == null;
     }

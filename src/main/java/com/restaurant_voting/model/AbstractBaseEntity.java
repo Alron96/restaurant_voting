@@ -4,6 +4,8 @@ import com.restaurant_voting.HasId;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.springframework.data.domain.Persistable;
+import org.springframework.util.Assert;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
@@ -11,20 +13,20 @@ import org.hibernate.Hibernate;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class AbstractBaseEntity implements HasId {
+public abstract class AbstractBaseEntity implements Persistable<Integer>, HasId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 
-    @Override
-    public void setId(Integer id) {
-        this.id = id;
+    public int id() {
+        Assert.notNull(id, "Entity must have id");
+        return id;
     }
 
     @Override
-    public Integer getId() {
-        return id;
+    public boolean isNew() {
+        return id == null;
     }
 
     @Override

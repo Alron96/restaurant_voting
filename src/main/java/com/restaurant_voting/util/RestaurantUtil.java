@@ -12,21 +12,15 @@ import java.util.stream.Collectors;
 @UtilityClass
 public class RestaurantUtil {
 
-    public static List<RestaurantTo> asTos(List<RestaurantTo> restaurants, List<Vote> votes) {
+    public static List<RestaurantTo> asTos(List<Restaurant> restaurants, List<Vote> votes) {
         Map<Integer, Integer> voteCountByRestaurantId = votes.stream()
                 .collect(Collectors.toMap(Vote::getRestaurant_fk, Vote::getRestaurant_fk, Integer::sum));
         return restaurants.stream()
-                .peek(r -> r.setVotes(voteCountByRestaurantId.getOrDefault(r.getId(), 0)))
+                .map(r -> createTo(r, voteCountByRestaurantId.getOrDefault(r.getId(), 0)))
                 .toList();
     }
 
-    public static List<RestaurantTo> asTosWithoutVotes(List<Restaurant> restaurants) {
-        return restaurants.stream()
-                .map(RestaurantUtil::createToWithoutVotes)
-                .toList();
-    }
-
-    private static RestaurantTo createToWithoutVotes(Restaurant restaurantTo) {
-        return new RestaurantTo(restaurantTo.getId(), restaurantTo.getName(), restaurantTo.getDishes(), 0);
+    private static RestaurantTo createTo(Restaurant restaurantTo, int votes) {
+        return new RestaurantTo(restaurantTo.getId(), restaurantTo.getName(), restaurantTo.getDishes(), votes);
     }
 }

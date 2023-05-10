@@ -2,7 +2,7 @@ package com.restaurant_voting.config;
 
 import com.restaurant_voting.model.Role;
 import com.restaurant_voting.model.User;
-import com.restaurant_voting.repository.user.UserRepository;
+import com.restaurant_voting.repository.UserRepository;
 import com.restaurant_voting.web.AuthorizedUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

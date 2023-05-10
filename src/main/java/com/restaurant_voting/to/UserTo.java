@@ -4,16 +4,11 @@ import com.restaurant_voting.HasIdAndEmail;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
-import java.io.Serial;
-import java.io.Serializable;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserTo implements HasIdAndEmail, Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class UserTo implements HasIdAndEmail {
 
     private Integer id;
 

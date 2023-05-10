@@ -2,39 +2,47 @@ package com.restaurant_voting.web.user;
 
 import com.restaurant_voting.model.User;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/admin/users")
-public class AdminController extends AbstractUserController {
+import static com.restaurant_voting.util.ValidationUtil.assureIdConsistent;
+import static com.restaurant_voting.util.ValidationUtil.checkNew;
 
-    @Override
+@RestController
+@RequestMapping(value = AdminController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class AdminController extends AbstractUserController {
+    static final String REST_URL = "/api/admin/users";
+
     @GetMapping
     public List<User> getAll() {
-        return super.getAll();
+        log.info("getAll users");
+        return repository.findAll(Sort.by(Sort.Direction.ASC, "name", "email"));
     }
 
-    @Override
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public User create(@Valid @RequestBody User user) {
-        return super.create(user);
+        log.info("create {}", user);
+        checkNew(user);
+        return repository.prepareAndSave(user);
     }
 
-    @Override
-    @PutMapping("{id}")
+    @PutMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody User user, @PathVariable int id) {
-        super.update(user, id);
+        log.info("update {} with id={}", user, id);
+        assureIdConsistent(user, id);
+        repository.prepareAndSave(user);
     }
 
-    @Override
     @GetMapping("/{id}")
     public User get(@PathVariable int id) {
-        return super.get(id);
+        log.info("get user with id={}", id);
+        return repository.getExisted(id);
     }
 
     @Override

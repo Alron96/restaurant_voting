@@ -1,47 +1,61 @@
 package com.restaurant_voting.web.restaurant;
 
 import com.restaurant_voting.model.Restaurant;
+import com.restaurant_voting.repository.RestaurantRepository;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping(value = "/api/admin/restaurants", produces = MediaType.APPLICATION_JSON_VALUE)
-public class AdminRestaurantController extends AbstractRestaurantController {
+import static com.restaurant_voting.util.ValidationUtil.assureIdConsistent;
+import static com.restaurant_voting.util.ValidationUtil.checkNew;
 
-    @Override
+@RestController
+@RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@Slf4j
+@AllArgsConstructor
+public class AdminRestaurantController {
+    static final String REST_URL = "/api/admin/restaurants";
+
+    private final RestaurantRepository repository;
+
     @GetMapping
     public List<Restaurant> getAll() {
-        return super.getAll();
+        log.info("getAll restaurants");
+        return repository.findAll(Sort.by(Sort.Direction.ASC, "name"));
     }
 
-    @Override
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public Restaurant create(@Valid @RequestBody Restaurant restaurant) {
-        return super.create(restaurant);
+        log.info("create {}", restaurant);
+        checkNew(restaurant);
+        return repository.save(restaurant);
     }
 
-    @Override
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
-        super.update(restaurant, id);
+        log.info("update {}", restaurant);
+        assureIdConsistent(restaurant, id);
+        repository.save(restaurant);
     }
 
-    @Override
     @GetMapping("/{id}")
     public Restaurant get(@PathVariable int id) {
-        return super.get(id);
+        log.info("get restaurant with id={}", id);
+        return repository.getExisted(id);
     }
 
-    @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
-        super.delete(id);
+        log.info("delete restaurant with id={}", id);
+        repository.deleteExisted(id);
     }
 }

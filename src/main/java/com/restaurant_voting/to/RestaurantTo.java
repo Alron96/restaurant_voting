@@ -2,6 +2,7 @@ package com.restaurant_voting.to;
 
 import com.restaurant_voting.HasId;
 import com.restaurant_voting.model.Dish;
+import com.restaurant_voting.util.validation.NoHtml;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -18,6 +19,7 @@ public class RestaurantTo implements HasId {
 
     @NotBlank
     @Size(max = 128)
+    @NoHtml
     private String name;
 
     private List<Dish> dishes;

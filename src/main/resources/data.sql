@@ -1,7 +1,8 @@
 INSERT INTO USERS (EMAIL, NAME, PASSWORD)
 VALUES ('admin@gmail.com', 'admin', '{noop}admin_password'),
        ('user_1@gmail.ru', 'user_1', '{noop}user_password_1'),
-       ('user_2@gmail.ru', 'user_2', '{noop}user_password_2');
+       ('user_2@gmail.ru', 'user_2', '{noop}user_password_2'),
+       ('guest@gmail.ru', 'guest', '{noop}guest_password');
 
 INSERT INTO USER_ROLE (ROLE, USER_ID)
 VALUES ('USER', 1),

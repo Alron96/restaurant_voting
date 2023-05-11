@@ -1,6 +1,7 @@
 package com.restaurant_voting.model;
 
 import com.restaurant_voting.HasIdAndEmail;
+import com.restaurant_voting.util.validation.NoHtml;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -25,6 +26,7 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail, Serializ
     @Email
     @NotBlank
     @Size(max = 128)
+    @NoHtml
     private String email;
 
     @Column(name = "password", nullable = false)

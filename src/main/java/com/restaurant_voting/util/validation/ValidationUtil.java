@@ -1,6 +1,7 @@
-package com.restaurant_voting.util;
+package com.restaurant_voting.util.validation;
 
 import com.restaurant_voting.HasId;
+import com.restaurant_voting.util.error.IllegalRequestDataException;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -8,7 +9,7 @@ public class ValidationUtil {
 
     public static void checkNew(HasId bean) {
         if (!bean.isNew()) {
-            throw new RuntimeException(bean.getClass().getSimpleName() + " must be new (id=null)");
+            throw new IllegalRequestDataException(bean.getClass().getSimpleName() + " must be new (id=null)");
         }
     }
 
@@ -16,7 +17,7 @@ public class ValidationUtil {
         if (bean.isNew()) {
             bean.setId(id);
         } else if (bean.id() != id) {
-            throw new RuntimeException(bean.getClass().getSimpleName() + " must has id=" + id);
+            throw new IllegalRequestDataException(bean.getClass().getSimpleName() + " must has id=" + id);
         }
     }
 }

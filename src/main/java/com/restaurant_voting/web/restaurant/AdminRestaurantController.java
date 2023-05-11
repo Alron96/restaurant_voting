@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.restaurant_voting.util.ValidationUtil.assureIdConsistent;
-import static com.restaurant_voting.util.ValidationUtil.checkNew;
+import static com.restaurant_voting.util.validation.ValidationUtil.assureIdConsistent;
+import static com.restaurant_voting.util.validation.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)

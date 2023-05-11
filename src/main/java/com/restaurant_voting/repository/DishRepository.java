@@ -1,6 +1,7 @@
 package com.restaurant_voting.repository;
 
 import com.restaurant_voting.model.Dish;
+import com.restaurant_voting.util.error.DataConflictException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,6 @@ public interface DishRepository extends BaseRepository<Dish> {
 
     default Dish getExistedOrBelonged(int id, int restaurantId) {
         return get(id, restaurantId).orElseThrow(
-                () -> new RuntimeException("Dish id=" + id + " is not exist or doesn't belong to Restaurant id=" + restaurantId));
+                () -> new DataConflictException("Dish id=" + id + " is not exist or doesn't belong to Restaurant id=" + restaurantId));
     }
 }

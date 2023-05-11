@@ -1,6 +1,7 @@
 package com.restaurant_voting.to;
 
 import com.restaurant_voting.HasIdAndEmail;
+import com.restaurant_voting.util.validation.NoHtml;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -14,6 +15,7 @@ public class UserTo implements HasIdAndEmail {
 
     @NotBlank
     @Size(max = 128)
+    @NoHtml
     private String name;
 
     @Email
@@ -24,6 +26,10 @@ public class UserTo implements HasIdAndEmail {
     @NotBlank
     @Size(min = 6, max = 128)
     private String password;
+
+    public UserTo(UserTo uTo) {
+        this(uTo.id, uTo.name, uTo.email, uTo.password);
+    }
 
     @Override
     public String toString() {

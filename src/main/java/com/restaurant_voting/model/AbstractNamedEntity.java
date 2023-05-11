@@ -1,5 +1,6 @@
 package com.restaurant_voting.model;
 
+import com.restaurant_voting.util.validation.NoHtml;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
@@ -16,6 +17,7 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
     @Column(name = "name", nullable = false)
     @NotBlank
     @Size(max = 128)
+    @NoHtml
     protected String name;
 
     protected AbstractNamedEntity(Integer id, String name) {

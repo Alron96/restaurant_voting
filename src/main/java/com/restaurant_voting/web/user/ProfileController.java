@@ -11,8 +11,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import static com.restaurant_voting.util.ValidationUtil.assureIdConsistent;
-import static com.restaurant_voting.util.ValidationUtil.checkNew;
+import static com.restaurant_voting.util.validation.ValidationUtil.assureIdConsistent;
+import static com.restaurant_voting.util.validation.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)

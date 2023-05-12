@@ -35,3 +35,5 @@ logging:
     root: warn
     com.restaurant_voting: debug
     org.springframework.security.web.FilterChainProxy: debug
+
+springdoc.swagger-ui.path: /

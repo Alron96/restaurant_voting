@@ -2,6 +2,7 @@ package com.restaurant_voting.web.restaurant;
 
 import com.restaurant_voting.model.Restaurant;
 import com.restaurant_voting.repository.RestaurantRepository;
+import com.restaurant_voting.service.RestaurantService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ public class AdminRestaurantController {
     static final String REST_URL = "/api/admin/restaurants";
 
     private final RestaurantRepository repository;
+    private final RestaurantService service;
 
     @GetMapping
     public List<Restaurant> getAll() {
@@ -35,7 +37,7 @@ public class AdminRestaurantController {
     public Restaurant create(@Valid @RequestBody Restaurant restaurant) {
         log.info("create {}", restaurant);
         checkNew(restaurant);
-        return repository.save(restaurant);
+        return service.save(restaurant);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -43,7 +45,7 @@ public class AdminRestaurantController {
     public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
         log.info("update {}", restaurant);
         assureIdConsistent(restaurant, id);
-        repository.save(restaurant);
+        service.save(restaurant);
     }
 
     @GetMapping("/{id}")
@@ -56,6 +58,6 @@ public class AdminRestaurantController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         log.info("delete restaurant with id={}", id);
-        repository.deleteExisted(id);
+        service.delete(id);
     }
 }

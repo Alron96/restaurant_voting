@@ -1,6 +1,6 @@
 package com.restaurant_voting.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public class Restaurant extends AbstractNamedEntity {
 
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "restaurant")
-    @JsonIgnore
+    @Schema(hidden = true)
     private List<Dish> dishes;
 
     public Restaurant(Integer id, String name) {

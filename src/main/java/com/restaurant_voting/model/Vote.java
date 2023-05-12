@@ -1,5 +1,6 @@
 package com.restaurant_voting.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -17,15 +18,21 @@ public class Vote extends AbstractBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Restaurant restaurant;
+
+    @Column(name = "restaurant_id", updatable = false, insertable = false)
+    private Integer restaurant_fk;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private User user;
 
-    @Column(name = "restaurant_id", updatable = false, insertable = false)
-    private Integer restaurant_fk;
+    @Column(name = "user_id", updatable = false, insertable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Integer user_fk;
 
     @Column(name = "vote_date", nullable = false)
     @NotNull
@@ -41,8 +48,8 @@ public class Vote extends AbstractBaseEntity {
     public String toString() {
         return "Vote(" +
                 super.toString() +
-                ", restaurantId=" + this.getRestaurant().getId() +
-                ", userId=" + this.getUser().getId() +
+                ", restaurantId=" + this.getRestaurant().id() +
+                ", userId=" + this.getUser().id() +
                 ", voteDate=" + this.getVoteDate() +
                 ")";
     }

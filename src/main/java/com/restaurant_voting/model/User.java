@@ -1,5 +1,6 @@
 package com.restaurant_voting.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.restaurant_voting.HasIdAndEmail;
 import com.restaurant_voting.util.validation.NoHtml;
 import jakarta.persistence.*;
@@ -32,6 +33,7 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail, Serializ
     @Column(name = "password", nullable = false)
     @NotBlank
     @Size(min = 6, max = 128)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Enumerated(EnumType.STRING)

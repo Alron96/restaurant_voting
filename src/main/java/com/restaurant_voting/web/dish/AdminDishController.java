@@ -60,6 +60,6 @@ public class AdminDishController {
     public void delete(@PathVariable int id, @PathVariable int restaurantId) {
         log.info("delete dish with id={}", id);
         Dish dish = repository.getExistedOrBelonged(id, restaurantId);
-        repository.delete(dish);
+        service.delete(dish);
     }
 }

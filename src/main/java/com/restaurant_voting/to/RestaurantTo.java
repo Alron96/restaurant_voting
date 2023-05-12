@@ -2,6 +2,7 @@ package com.restaurant_voting.to;
 
 import com.restaurant_voting.HasId;
 import com.restaurant_voting.model.Dish;
+import com.restaurant_voting.model.Vote;
 import com.restaurant_voting.util.validation.NoHtml;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -26,10 +27,12 @@ public class RestaurantTo implements HasId {
 
     private int votes;
 
+    private Vote authUserVote;
+
     @Override
     public String toString() {
         return "RestaurantTo(" +
-                "id=" + this.getId() +
+                "id=" + this.id() +
                 ", name=" + this.getName() +
                 ", dishes=" + this.getDishes() +
                 ", votes=" + this.getVotes() +

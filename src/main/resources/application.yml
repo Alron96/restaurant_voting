@@ -25,6 +25,10 @@ spring:
     default-page-size: 20
     return-body-on-create: true
 
+  cache:
+    cache-names: restaurants
+    caffeine.spec: maximumSize=10000,expireAfterAccess=24h
+
 server.servlet.encoding:
   charset: UTF-8
   enabled: true

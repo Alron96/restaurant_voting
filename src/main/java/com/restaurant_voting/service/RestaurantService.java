@@ -1,10 +1,11 @@
 package com.restaurant_voting.service;
 
-import com.restaurant_voting.model.Vote;
+import com.restaurant_voting.model.Restaurant;
 import com.restaurant_voting.repository.RestaurantRepository;
 import com.restaurant_voting.repository.VoteRepository;
 import com.restaurant_voting.to.RestaurantTo;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,16 @@ public class RestaurantService {
     private final VoteRepository voteRepository;
 
     public List<RestaurantTo> getAllWithDishesAndVotes(int userId) {
-        Vote authUserVote = voteRepository.get(userId);
-        return asTos(restaurantRepository.getAllWithDishes(), voteRepository.getAllToday(), authUserVote);
+        return asTos(restaurantRepository.getAllWithDishes(), voteRepository.getAllToday(), userId);
+    }
+
+    @CacheEvict(value = "restaurants", allEntries = true)
+    public Restaurant save(Restaurant restaurant) {
+        return restaurantRepository.save(restaurant);
+    }
+
+    @CacheEvict(value = "restaurants", allEntries = true)
+    public void delete(int id) {
+        restaurantRepository.deleteExisted(id);
     }
 }

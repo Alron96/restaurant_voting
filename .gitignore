@@ -1,7 +1,7 @@
-HELP.md
-target/
-### IntelliJ IDEA ###
+target
 .idea
 *.iws
 *.iml
 *.ipr
+out
+log

@@ -11,16 +11,15 @@ import java.util.stream.Collectors;
 @UtilityClass
 public class RestaurantUtil {
 
-    public static List<RestaurantTo> asTos(List<Restaurant> restaurants, List<Vote> votes, Vote authUserVote) {
+    public static List<RestaurantTo> asTos(List<Restaurant> restaurants, List<Vote> votes, int authUserId) {
         Map<Integer, Integer> voteCountByRestaurantId = votes.stream()
                 .collect(Collectors.toMap(Vote::getRestaurant_fk, Vote::getRestaurant_fk, Integer::sum));
 
-        Integer restIdVotedByAuthUser;
-        if (authUserVote == null) {
-            restIdVotedByAuthUser = null;
-        } else {
-            restIdVotedByAuthUser = authUserVote.getRestaurant_fk();
-        }
+        Vote authUserVote = votes.stream()
+                .filter(v -> v.getUser_fk() == authUserId)
+                .findAny().orElse(null);
+
+        Integer restIdVotedByAuthUser = authUserVote == null ? null : authUserVote.getRestaurant_fk();
 
         return restaurants.stream()
                 .map(r -> createTo(r, voteCountByRestaurantId.getOrDefault(r.id(), 0),

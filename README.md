@@ -1,9 +1,11 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/71a96aa3f16a4437a698c90460bce938)](https://app.codacy.com/gh/Alron96/restaurant_voting/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
 # Voting for restaurants
 
 ###### This system voting is for deciding where to dine.
 
 -------------------------------------------------------------
-- Stack: JDK 17, Spring Boot 2.6.2, Lombok, H2, Caffeine Cache, Swagger/OpenAPI 3.0
+- Stack: JDK 17, Spring Boot 3.0.6, Lombok, H2, Caffeine Cache, Swagger/OpenAPI 3.0
 - Run: `mvn spring-boot:run` in root directory.
 -----------------------------------------------------
 [REST API documentation](http://localhost:8080/)  

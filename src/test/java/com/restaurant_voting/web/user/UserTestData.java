@@ -1,10 +1,10 @@
 package com.restaurant_voting.web.user;
 
-import com.restaurant_voting.to.UserTo;
-import com.restaurant_voting.web.MatcherFactory;
 import com.restaurant_voting.model.Role;
 import com.restaurant_voting.model.User;
+import com.restaurant_voting.to.UserTo;
 import com.restaurant_voting.util.JsonUtil;
+import com.restaurant_voting.web.MatcherFactory;
 
 import java.util.List;
 

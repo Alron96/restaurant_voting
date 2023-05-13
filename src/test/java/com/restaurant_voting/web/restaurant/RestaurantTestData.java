@@ -6,7 +6,9 @@ import com.restaurant_voting.web.MatcherFactory;
 
 import java.util.List;
 
-import static com.restaurant_voting.web.dish.DishTestData.*;
+import static com.restaurant_voting.web.dish.DishTestData.DISHES_TODAY_BY_RESTAURANT_1;
+import static com.restaurant_voting.web.dish.DishTestData.DISHES_TODAY_BY_RESTAURANT_2;
+import static com.restaurant_voting.web.dish.DishTestData.DISHES_TODAY_BY_RESTAURANT_3;
 
 public class RestaurantTestData {
     public static final MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER =

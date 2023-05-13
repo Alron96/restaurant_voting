@@ -11,10 +11,10 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static com.restaurant_voting.web.user.UserTestData.*;
+import static com.restaurant_voting.web.user.UserTestData.USER_ID;
+import static com.restaurant_voting.web.user.UserTestData.USER_MAIL_1;
+import static com.restaurant_voting.web.user.UserTestData.USER_MAIL_2;
 import static com.restaurant_voting.web.vote.UserVoteController.REST_URL;
-import static com.restaurant_voting.web.vote.VoteTestData.getNew;
-import static com.restaurant_voting.web.vote.VoteTestData.getUpdated;
 import static com.restaurant_voting.web.vote.VoteTestData.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

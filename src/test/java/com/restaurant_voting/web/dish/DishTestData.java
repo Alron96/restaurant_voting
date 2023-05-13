@@ -1,12 +1,14 @@
 package com.restaurant_voting.web.dish;
 
-import com.restaurant_voting.web.MatcherFactory;
 import com.restaurant_voting.model.Dish;
+import com.restaurant_voting.web.MatcherFactory;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.restaurant_voting.web.restaurant.RestaurantTestData.*;
+import static com.restaurant_voting.web.restaurant.RestaurantTestData.RESTAURANT_1;
+import static com.restaurant_voting.web.restaurant.RestaurantTestData.RESTAURANT_2;
+import static com.restaurant_voting.web.restaurant.RestaurantTestData.RESTAURANT_3;
 
 public class DishTestData {
     public static final MatcherFactory.Matcher<Dish> DISH_MATCHER =

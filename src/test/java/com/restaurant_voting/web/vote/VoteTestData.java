@@ -1,7 +1,7 @@
 package com.restaurant_voting.web.vote;
 
-import com.restaurant_voting.web.MatcherFactory;
 import com.restaurant_voting.model.Vote;
+import com.restaurant_voting.web.MatcherFactory;
 
 import java.time.LocalTime;
 

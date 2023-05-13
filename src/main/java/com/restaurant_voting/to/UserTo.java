@@ -2,8 +2,13 @@ package com.restaurant_voting.to;
 
 import com.restaurant_voting.HasIdAndEmail;
 import com.restaurant_voting.util.validation.NoHtml;
-import jakarta.validation.constraints.*;
-import lombok.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter

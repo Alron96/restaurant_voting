@@ -15,7 +15,10 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.firewall.RequestRejectedException;
-import org.springframework.validation.*;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -25,7 +28,9 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.io.FileNotFoundException;
 import java.nio.file.AccessDeniedException;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
 
 import static com.restaurant_voting.util.error.ErrorType.*;
 

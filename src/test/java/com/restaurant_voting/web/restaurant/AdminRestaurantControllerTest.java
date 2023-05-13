@@ -1,9 +1,9 @@
 package com.restaurant_voting.web.restaurant;
 
-import com.restaurant_voting.web.AbstractControllerTest;
 import com.restaurant_voting.model.Restaurant;
 import com.restaurant_voting.repository.RestaurantRepository;
 import com.restaurant_voting.util.JsonUtil;
+import com.restaurant_voting.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

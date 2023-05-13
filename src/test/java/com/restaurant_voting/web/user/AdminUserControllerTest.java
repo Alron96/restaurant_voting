@@ -1,8 +1,8 @@
 package com.restaurant_voting.web.user;
 
-import com.restaurant_voting.web.AbstractControllerTest;
 import com.restaurant_voting.model.User;
 import com.restaurant_voting.repository.UserRepository;
+import com.restaurant_voting.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,7 +27,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void getAll() throws Exception{
+    void getAll() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isOk())
                 .andDo(print())

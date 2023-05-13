@@ -1,11 +1,11 @@
 package com.restaurant_voting.web.user;
 
-import com.restaurant_voting.web.AbstractControllerTest;
 import com.restaurant_voting.model.User;
 import com.restaurant_voting.repository.UserRepository;
 import com.restaurant_voting.to.UserTo;
 import com.restaurant_voting.util.JsonUtil;
 import com.restaurant_voting.util.UserUtil;
+import com.restaurant_voting.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

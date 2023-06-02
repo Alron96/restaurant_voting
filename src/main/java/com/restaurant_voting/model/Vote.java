@@ -13,7 +13,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "vote_date"}, name = "user_unique_vote_idx")})
+@Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"vote_date", "user_id"}, name = "user_unique_vote_idx")})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,20 +21,24 @@ public class Vote extends AbstractBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
     @JsonIgnore
     private Restaurant restaurant;
 
     @Column(name = "restaurant_id", updatable = false, insertable = false)
+    @NotNull
     private Integer restaurant_fk;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
     @JsonIgnore
     private User user;
 
     @Column(name = "user_id", updatable = false, insertable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotNull
     private Integer user_fk;
 
     @Column(name = "vote_date", nullable = false)

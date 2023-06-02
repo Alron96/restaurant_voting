@@ -37,7 +37,7 @@ public class UserTestData {
         return new UserTo(null, "new_user", "new_user@gmail.ru", "new_user_password");
     }
 
-    public static String jsonWithPassword(User user, String passw) {
-        return JsonUtil.writeAdditionProps(user, "password", passw);
+    public static String jsonWithPassword(User user, String password) {
+        return JsonUtil.writeAdditionProps(user, "password", password);
     }
 }

@@ -3,65 +3,64 @@ package com.restaurant_voting.web.vote;
 import com.restaurant_voting.model.Vote;
 import com.restaurant_voting.repository.VoteRepository;
 import com.restaurant_voting.service.VoteService;
-import com.restaurant_voting.web.AuthorizedUser;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.time.LocalTime;
+import java.net.URI;
+import java.util.List;
 
-import static com.restaurant_voting.util.TimeUtil.checkValidVoteTime;
-import static com.restaurant_voting.util.validation.ValidationUtil.checkNew;
+import static com.restaurant_voting.web.AuthorizedUser.authId;
 
 @RestController
 @RequestMapping(value = UserVoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @AllArgsConstructor
 public class UserVoteController {
-    static final String REST_URL = "/api/restaurants";
+    static final String REST_URL = "/api/profile/votes";
 
     private final VoteRepository repository;
     private final VoteService service;
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestParam @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime voteTime,
-                       @Valid @RequestBody Vote vote,
-                       @AuthenticationPrincipal AuthorizedUser authUser) {
-        int userId = authUser.getId();
-        log.info("update {} by user={} to restaurantId={}", vote, userId, vote.getRestaurant_fk());
-        checkValidVoteTime(voteTime);
-        repository.getExistedOrBelonged(vote.id(), userId);
-        service.save(vote, userId);
+    @GetMapping
+    public List<Vote> getAll() {
+        log.info("getAll votes for user {}", authId());
+        return repository.getAllByUser(authId());
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/{id}")
+    public Vote get(@PathVariable int id) {
+        log.info("get vote {} for user {}", id, authId());
+        return service.get(id, authId());
+    }
+
+    @PutMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@RequestParam int restaurantId) {
+        log.info("update vote for restaurant {} by user {}", restaurantId, authId());
+        service.update(restaurantId, authId());
+    }
+
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Vote create(@RequestParam @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime voteTime,
-                       @Valid @RequestBody Vote vote,
-                       @AuthenticationPrincipal AuthorizedUser authUser) {
-        int userId = authUser.getId();
-        log.info("save {}} by userId={} to restaurantId={}", vote, userId, vote.getRestaurant_fk());
-        checkValidVoteTime(voteTime);
-        checkNew(vote);
-        return service.save(vote, userId);
+    public ResponseEntity<Vote> create(@RequestParam int restaurantId) {
+        log.info("create vote for restaurant {} by user {}", restaurantId, authId());
+        Vote created = service.create(restaurantId, authId());
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId())
+                .toUri();
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@RequestParam @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalTime voteTime,
-                       @RequestParam @NotNull int id,
-                       @AuthenticationPrincipal AuthorizedUser authUser) {
-        int userId = authUser.getId();
-        log.info("delete vote with id={} by userId={}", id, userId);
-        checkValidVoteTime(voteTime);
-        Vote vote = repository.getExistedOrBelonged(id, userId);
-        repository.delete(vote);
+    public void delete(@PathVariable int id) {
+        log.info("delete vote by user {}", authId());
+        service.delete(id, authId());
     }
 }

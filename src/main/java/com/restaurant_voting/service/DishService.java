@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 @Service
 @AllArgsConstructor
@@ -14,15 +15,23 @@ public class DishService {
     private final DishRepository dishRepository;
     private final RestaurantRepository restaurantRepository;
 
-    @Transactional
-    @CacheEvict(value = "restaurants", allEntries = true)
-    public Dish save(Dish dish, int restaurantId) {
-        dish.setRestaurant(restaurantRepository.getExisted(restaurantId));
+    public Dish create(Dish dish, int restaurantId) {
+        Assert.notNull(dish, "dish must not be null");
+        dish.setRestaurant(restaurantRepository.getReferenceById(restaurantId));
         return dishRepository.save(dish);
     }
 
+    @Transactional
     @CacheEvict(value = "restaurants", allEntries = true)
-    public void delete(Dish dish) {
+    public void update(Dish dish, int restaurantId) {
+        Assert.notNull(dish, "dish must not be null");
+        dishRepository.getExistedOrBelonged(dish.id(), restaurantId);
+        dishRepository.save(dish);
+    }
+
+    @CacheEvict(value = "restaurants", allEntries = true)
+    public void delete(int id, int restaurantId) {
+        Dish dish = dishRepository.getExistedOrBelonged(id, restaurantId);
         dishRepository.delete(dish);
     }
 }

@@ -108,18 +108,18 @@ class AdminDishControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
-        Dish newRestaurant = getNew();
+        Dish newDish = getNew();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL_RESTAURANT_1)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newRestaurant)))
+                .content(JsonUtil.writeValue(newDish)))
                 .andDo(print())
                 .andExpect(status().isCreated());
 
         Dish created = DISH_MATCHER.readFromJson(action);
         int newId = created.id();
-        newRestaurant.setId(newId);
-        DISH_MATCHER.assertMatch(created, newRestaurant);
-        DISH_MATCHER.assertMatch(dishRepository.getExisted(newId), newRestaurant);
+        newDish.setId(newId);
+        DISH_MATCHER.assertMatch(created, newDish);
+        DISH_MATCHER.assertMatch(dishRepository.getExisted(newId), newDish);
     }
 
     @Test

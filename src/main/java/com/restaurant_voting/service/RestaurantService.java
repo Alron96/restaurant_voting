@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.restaurant_voting.util.RestaurantUtil.asTos;
+import static com.restaurant_voting.util.TimeUtil.TODAY;
 
 @Service
 @AllArgsConstructor
@@ -18,8 +19,12 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final VoteRepository voteRepository;
 
-    public List<RestaurantTo> getAllWithDishesAndVotes(int userId) {
-        return asTos(restaurantRepository.getAllWithDishes(), voteRepository.getAllToday(), userId);
+    public Restaurant get(int id) {
+        return restaurantRepository.getExisted(id);
+    }
+
+    public List<RestaurantTo> getAllWithDishesAndVotesToday() {
+        return asTos(restaurantRepository.getAllWithDishesByDate(TODAY));
     }
 
     @CacheEvict(value = "restaurants", allEntries = true)

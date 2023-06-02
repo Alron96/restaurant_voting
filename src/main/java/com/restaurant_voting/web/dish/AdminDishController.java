@@ -8,8 +8,12 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,12 +36,22 @@ public class AdminDishController {
         return repository.getAll(restaurantId);
     }
 
+    @GetMapping("/filter")
+    public List<Dish> getAllByDate(@PathVariable int restaurantId, @RequestParam LocalDate day) {
+        log.info("getAll dishes");
+        return repository.getAllByDate(restaurantId, day);
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Dish create(@Valid @RequestBody Dish dish, @PathVariable int restaurantId) {
+    public ResponseEntity<Dish> create(@Valid @RequestBody Dish dish, @PathVariable int restaurantId) {
         log.info("create {} for restaurantId={}", dish, restaurantId);
         checkNew(dish);
-        return service.save(dish, restaurantId);
+        Dish created = service.create(dish, restaurantId);
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/api/admin/restaurants" + "/{restaurantId}" + "/dishes" + "/{id}")
+                .buildAndExpand(restaurantId, created.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -45,8 +59,7 @@ public class AdminDishController {
     public void update(@Valid @RequestBody Dish dish, @PathVariable int restaurantId, @PathVariable int id) {
         log.info("update {} for restaurantId={}", dish, restaurantId);
         assureIdConsistent(dish, id);
-        repository.getExistedOrBelonged(id, restaurantId);
-        service.save(dish, restaurantId);
+        service.update(dish, restaurantId);
     }
 
     @GetMapping("/{id}")
@@ -59,7 +72,6 @@ public class AdminDishController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id, @PathVariable int restaurantId) {
         log.info("delete dish with id={}", id);
-        Dish dish = repository.getExistedOrBelonged(id, restaurantId);
-        service.delete(dish);
+        service.delete(id, restaurantId);
     }
 }

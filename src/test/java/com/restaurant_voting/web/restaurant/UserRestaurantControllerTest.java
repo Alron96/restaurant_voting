@@ -6,8 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static com.restaurant_voting.web.restaurant.RestaurantTestData.RESTAURANTS_WITH_DISHES_AND_VOTES_TODAY;
-import static com.restaurant_voting.web.restaurant.RestaurantTestData.RESTAURANT_WITH_DISHES_AND_VOTES_MATCHER;
+import static com.restaurant_voting.web.restaurant.RestaurantTestData.RESTAURANT_WITH_DISHES_MATCHER;
+import static com.restaurant_voting.web.restaurant.RestaurantToTestData.RESTAURANTS_WITH_DISHES_AND_VOTES_TODAY;
 import static com.restaurant_voting.web.restaurant.UserRestaurantController.REST_URL;
 import static com.restaurant_voting.web.user.UserTestData.USER_MAIL_1;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -23,7 +23,7 @@ class UserRestaurantControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_WITH_DISHES_AND_VOTES_MATCHER.contentJson(RESTAURANTS_WITH_DISHES_AND_VOTES_TODAY));
+                .andExpect(RESTAURANT_WITH_DISHES_MATCHER.contentJson(RESTAURANTS_WITH_DISHES_AND_VOTES_TODAY));
     }
 
     @Test

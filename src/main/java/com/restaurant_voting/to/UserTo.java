@@ -32,10 +32,6 @@ public class UserTo implements HasIdAndEmail {
     @Size(min = 6, max = 128)
     private String password;
 
-    public UserTo(UserTo uTo) {
-        this(uTo.id, uTo.name, uTo.email, uTo.password);
-    }
-
     @Override
     public String toString() {
         return "UserTo{" +

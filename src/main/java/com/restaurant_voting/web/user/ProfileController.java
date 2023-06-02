@@ -2,14 +2,17 @@ package com.restaurant_voting.web.user;
 
 import com.restaurant_voting.model.User;
 import com.restaurant_voting.to.UserTo;
-import com.restaurant_voting.util.UserUtil;
 import com.restaurant_voting.web.AuthorizedUser;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 import static com.restaurant_voting.util.validation.ValidationUtil.assureIdConsistent;
 import static com.restaurant_voting.util.validation.ValidationUtil.checkNew;
@@ -33,10 +36,15 @@ public class ProfileController extends AbstractUserController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public User register(@Valid @RequestBody UserTo userTo) {
+    public ResponseEntity<User> register(@Valid @RequestBody UserTo userTo) {
         log.info("register {}", userTo);
         checkNew(userTo);
-        return repository.prepareAndSave(UserUtil.createNewFromTo(userTo));
+        User created = service.create(userTo);
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL)
+                .build()
+                .toUri();
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -45,7 +53,6 @@ public class ProfileController extends AbstractUserController {
     public void update(@Valid @RequestBody UserTo userTo, @AuthenticationPrincipal AuthorizedUser authUser) {
         log.info("update {} with id={}", userTo, authUser.getId());
         assureIdConsistent(userTo, authUser.getId());
-        User user = authUser.getUser();
-        repository.prepareAndSave(UserUtil.updateFromTo(user, userTo));
+        service.update(userTo);
     }
 }

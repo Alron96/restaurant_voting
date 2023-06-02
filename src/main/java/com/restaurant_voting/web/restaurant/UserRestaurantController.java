@@ -2,11 +2,9 @@ package com.restaurant_voting.web.restaurant;
 
 import com.restaurant_voting.service.RestaurantService;
 import com.restaurant_voting.to.RestaurantTo;
-import com.restaurant_voting.web.AuthorizedUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +23,7 @@ public class UserRestaurantController {
 
     @GetMapping
     @Transactional(readOnly = true)
-    public List<RestaurantTo> getAllWithDishesAndVotes(@AuthenticationPrincipal AuthorizedUser authUser) {
-        return service.getAllWithDishesAndVotes(authUser.getId());
+    public List<RestaurantTo> getAllWithDishesAndVotesToday() {
+        return service.getAllWithDishesAndVotesToday();
     }
 }

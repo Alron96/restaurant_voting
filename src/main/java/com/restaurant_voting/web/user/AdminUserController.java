@@ -5,8 +5,11 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 import static com.restaurant_voting.util.validation.ValidationUtil.assureIdConsistent;
@@ -25,10 +28,15 @@ public class AdminUserController extends AbstractUserController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public User create(@Valid @RequestBody User user) {
+    public ResponseEntity<User> create(@Valid @RequestBody User user) {
         log.info("create {}", user);
         checkNew(user);
-        return repository.prepareAndSave(user);
+        User created = service.create(user);
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId())
+                .toUri();
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @PutMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -36,13 +44,13 @@ public class AdminUserController extends AbstractUserController {
     public void update(@Valid @RequestBody User user, @PathVariable int id) {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
-        repository.prepareAndSave(user);
+        service.update(user);
     }
 
     @GetMapping("/{id}")
     public User get(@PathVariable int id) {
         log.info("get user with id={}", id);
-        return repository.getExisted(id);
+        return service.get(id);
     }
 
     @Override
